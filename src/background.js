@@ -192,25 +192,25 @@ function createWindow() {
       }
     }
   })
-  if (!isDevelopment) {
-    // Disable shortcuts defining a hidden menu and binding the shortcut we
-    // want to disable to an option
-    const menu = Menu.buildFromTemplate([
-      {
-        label: 'Menu',
-        submenu: [
-          { label: 'Reload', accelerator: 'CmdOrCtrl+R', click: () => {} },
-          { label: 'ZoomOut', accelerator: 'CmdOrCtrl+-', click: () => {} },
-          { label: 'ZoomIn', accelerator: 'CmdOrCtrl+Plus', click: () => {} },
-          { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
-          { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-          { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
-        ],
-      },
-    ])
+  // if (!isDevelopment) {
+  //   // Disable shortcuts defining a hidden menu and binding the shortcut we
+  //   // want to disable to an option
+  //   const menu = Menu.buildFromTemplate([
+  //     {
+  //       label: 'Menu',
+  //       submenu: [
+  //         { label: 'Reload', accelerator: 'CmdOrCtrl+R', click: () => {} },
+  //         { label: 'ZoomOut', accelerator: 'CmdOrCtrl+-', click: () => {} },
+  //         { label: 'ZoomIn', accelerator: 'CmdOrCtrl+Plus', click: () => {} },
+  //         { label: 'Cut', accelerator: 'CmdOrCtrl+X', selector: 'cut:' },
+  //         { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
+  //         { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+  //       ],
+  //     },
+  //   ])
 
-    Menu.setApplicationMenu(menu)
-  }
+  //   Menu.setApplicationMenu(menu)
+  // }
 }
 
 function createTray() {
@@ -256,7 +256,7 @@ async function downloadWalletRelease(releaseUrl, version) {
           win.webContents.send('progress', progress)
         })
         const pipeline = util.promisify(stream.pipeline)
-        fs.writeFileSync(path.join(SHEIKAH_PATH, `.${version}`))
+        fs.writeFile(path.join(SHEIKAH_PATH, `.version`), version)
         // Promise equivalent for response.data.pipe(writeStream)
         await pipeline(response.data, str, fs.createWriteStream(file))
         console.info('witnet release downloaded succesfully')
@@ -334,19 +334,36 @@ function main() {
         path.join(SHEIKAH_PATH, WITNET_CONFIG_FILE_NAME),
       )
       const existVersionFile = fs.existsSync(
-        path.join(SHEIKAH_PATH, `.${latestReleaseVersion}`),
+        path.join(SHEIKAH_PATH, '.version'),
       )
 
+      let isLastestVersion = existConfigFile && existWitnetFile
+
+      if (existVersionFile) {
+        fs.readFile(path.join(SHEIKAH_PATH, '.version'), 'utf8', function(
+          err,
+          data,
+        ) {
+          if (err) {
+            return console.log(err)
+          }
+          win.webContents.send('log', `data ${data}`)
+          if (data !== latestReleaseVersion) {
+            isLastestVersion = false
+          }
+        })
+      }
+      win.webContents.send('log', `data extracted: ${isLastestVersion}`)
       if (existWitnetFile) console.info("Witnet's wallet file found")
       if (existConfigFile) console.info("Witnet's config file found")
       if (existVersionFile) console.info("Witnet's version file found")
 
-      const isLastestVersion = existConfigFile && existWitnetFile && existVersionFile
-      
       if (!isLastestVersion) {
+        win.webContents.send('log', 0)
         await sleep(2500)
         await downloadWalletRelease(releaseUrl, latestReleaseVersion)
       } else {
+        win.webContents.send('log', 1)
         win.webContents.send('downloaded')
         await sleep(3000)
       }

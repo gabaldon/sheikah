@@ -20,3 +20,6 @@ ipcRenderer.on('downloaded', async () => {
 ipcRenderer.on('progress', async (event, progress) => {
   store.commit('setProgress', { progress: progress.percentage })
 })
+ipcRenderer.on('log', async (event, msg) => {
+  console.log('[log]', msg)
+})
