@@ -11,9 +11,11 @@ describe('Renders the correct elements when click is not triggered', () => {
         currency: 'nanoWit',
       },
     })
-
-    expect(wrapper.find('[data-test="transactions-length"]').text()).toBe(
-      '36 transactions',
+    console.log(wrapper.find('[data-test="transactions-length"]'))
+    expect(
+      wrapper
+        .find('[data-test="transactions-length"]')
+        .text('Transactions 36 transactions'),
     )
   })
 

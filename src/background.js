@@ -126,6 +126,7 @@ if (!lock) {
 
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopment) {
+  main()
   if (process.platform === 'win32') {
     process.on('message', data => {
       if (data === 'graceful-exit') {
