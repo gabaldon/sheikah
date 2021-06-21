@@ -28,6 +28,10 @@ ipcRenderer.on('downloaded', async () => {
   store.commit('setMessage', { message: 'wallet up to date' })
 })
 
+ipcRenderer.on('log', async (event, msg) => {
+  console.log(msg)
+})
+
 ipcRenderer.on('progress', async (event, progress) => {
   store.commit('setProgress', { progress: progress.percentage })
 })

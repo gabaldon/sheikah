@@ -95,6 +95,7 @@ export default {
     sessionId: function(newValue) {
       if (newValue) {
         this.updateView()
+        // this.lockWallet({ walletId: '12aefb420e7fdeb3faafa9f3788cae1b61240f7bb833afe5303b050b8018dfdc', sessionId: this.sessionId })
       }
     },
     password() {
@@ -104,6 +105,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.walletId, this.wallets)
     this.getWalletInfos()
     this.currentWallet = this.walletOptions[this.lastWalletOpen]
   },
@@ -111,6 +113,7 @@ export default {
     ...mapActions({
       unlockWallet: 'unlockWallet',
       getWalletInfos: 'getWalletInfos',
+      lockWallet: 'lockWallet'
     }),
     ...mapMutations({
       clearError: 'clearError',

@@ -852,13 +852,14 @@ export default {
       }
     },
 
-    lockWallet: async function(context, { walletId, wipe }) {
+    lockWallet: async function(context, { walletId, sessionId }) {
       const request = await context.state.api.lockWallet({
         wallet_id: walletId,
-        wipe,
+        session_id: sessionId,
       })
+      console.log('request result', request.result)
       if (request.result) {
-        context.commit('lockWallet', context.store.wallet.id)
+        // context.commit('lockWallet', context.store.wallet.id)
         context.commit('setBirthDate', { result: null })
       } else {
         context.commit('setError', 'lockWallet', request.error)
@@ -1053,6 +1054,7 @@ export default {
     },
     getWalletInfos: async function(context) {
       const request = await context.state.api.getWalletInfos()
+      console.log('getWalletInfos', request.result)
       if (request.result) {
         context.commit('setWalletInfos', { walletInfos: request.result })
       } else {

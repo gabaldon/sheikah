@@ -213,7 +213,7 @@ function createWindow() {
     win.webContents.send('shutdown')
   })
 
-  if (!isDevelopment) {
+  if (isDevelopment) {
     // Disable shortcuts defining a hidden menu and binding the shortcut we
     // want to disable to an option
     const menu = Menu.buildFromTemplate([
@@ -394,6 +394,7 @@ function main() {
       let isLatestVersionCompatible = true
 
       if (existVersionFile) {
+        win.webContents.send('log', `exist version file ${existVersionFile}`)
         try {
           const versionFile = fs.readFileSync(
             path.join(SHEIKAH_PATH, VERSION_FILE_NAME),
@@ -422,19 +423,22 @@ function main() {
 
       if (!isLastestVersion && isLatestVersionCompatible) {
         win.webContents.send('downloading')
+        win.webContents.send('log', `downloading--`)
         await sleep(2500)
         await downloadWalletRelease(releaseUrl, latestReleaseVersion)
       } else {
         win.webContents.send('downloaded')
+        win.webContents.send('log', `downloaded--`)
         await sleep(3000)
       }
       if (!isBeingUpdated) {
         runWallet()
       }
     } else {
+      win.webContents.send('log', `Your OS is not supported yet`)
       status = STATUS.OS_NOT_SUPPORTED
       loadUrl(status)
-
+      
       console.info('Your OS is not supported yet')
     }
   })
@@ -505,6 +509,7 @@ autoUpdater.on('update-available', () => {
         })
     } else if (result.response === 1) {
       isBeingUpdated = false
+      win.webContents.send('log', `is not being updated....`)
       runWallet()
     }
   })
