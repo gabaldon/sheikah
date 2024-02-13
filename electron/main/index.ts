@@ -71,29 +71,29 @@ async function createWindow() {
   })
 
   if (!process.env.VITE_DEV_SERVER_URL) {
-    // Hide electron toolbar in production environment
-    this.win.setMenuBarVisibility(false)
-    const menu = Menu.buildFromTemplate([
-      {
-        label: 'Menu',
-        submenu: [
-          {
-            label: 'Quit',
-            accelerator: 'CmdOrCtrl+Q',
-            click: () => {
-              this.sendShutdownMessage()
-            },
-          },
-          { label: 'Reload', accelerator: 'CmdOrCtrl+R', click: () => {} },
-          { label: 'ZoomOut', accelerator: 'CmdOrCtrl+-', click: () => {} },
-          { label: 'ZoomIn', accelerator: 'CmdOrCtrl+Plus', click: () => {} },
-          { label: 'Cut', accelerator: 'CmdOrCtrl+X', role: 'cut' },
-          { label: 'Copy', accelerator: 'CmdOrCtrl+C', role: 'copy' },
-          { label: 'Paste', accelerator: 'CmdOrCtrl+V', role: 'paste' },
-        ],
-      },
-    ])
-    Menu.setApplicationMenu(menu)
+    // // Hide electron toolbar in production environment
+    // this.win.setMenuBarVisibility(false)
+    // const menu = Menu.buildFromTemplate([
+    //   {
+    //     label: 'Menu',
+    //     submenu: [
+    //       {
+    //         label: 'Quit',
+    //         accelerator: 'CmdOrCtrl+Q',
+    //         click: () => {
+    //           this.sendShutdownMessage()
+    //         },
+    //       },
+    //       { label: 'Reload', accelerator: 'CmdOrCtrl+R', click: () => {} },
+    //       { label: 'ZoomOut', accelerator: 'CmdOrCtrl+-', click: () => {} },
+    //       { label: 'ZoomIn', accelerator: 'CmdOrCtrl+Plus', click: () => {} },
+    //       { label: 'Cut', accelerator: 'CmdOrCtrl+X', role: 'cut' },
+    //       { label: 'Copy', accelerator: 'CmdOrCtrl+C', role: 'copy' },
+    //       { label: 'Paste', accelerator: 'CmdOrCtrl+V', role: 'paste' },
+    //     ],
+    //   },
+    // ])
+    // Menu.setApplicationMenu(menu)
   }
 
   if (app.isPackaged) {

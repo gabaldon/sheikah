@@ -116,7 +116,6 @@ export default createRouter({
         },
       ],
     },
-
     {
       path: '/setup',
       name: 'setup',

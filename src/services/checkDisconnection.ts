@@ -23,6 +23,7 @@ export async function checkDisconnection(router: Router, store: any) {
           setTimeout(() => {
             if (!api.client.ready) {
               if (!isWalletNotFound) {
+                console.log('Wallet not found!!')
                 router.push('/wallet-not-found')
               }
             }
