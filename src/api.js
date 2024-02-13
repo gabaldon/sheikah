@@ -23,7 +23,7 @@ class ApiClient {
     this.ws = new RPCWebsockets(this.options.url, { ...this.options })
     this.ready = false
 
-    this.ws.on("open", () => {
+    this.ws.on('open', () => {
       this.ready = true
     })
   }
