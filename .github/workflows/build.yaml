@@ -41,5 +41,6 @@ jobs:
         with:
           # Artifact name
           name: ${{ matrix.os }}-artifact
-          # Directory containing files to upload
-          path: dist_electron
+          # Directory containing files to upload 
+          # The build generated a folder with the following structure: release/RELEASE_VERSION/*
+          path: release/**/*
