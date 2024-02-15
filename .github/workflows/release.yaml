@@ -31,9 +31,6 @@ jobs:
         with:
           version: 8
 
-      - name: Install Snapcraft
-        uses: samuelmeuli/action-snapcraft@v2
-
       - name: Build & release Electron app
         shell: bash
         env:
@@ -47,7 +44,7 @@ jobs:
           SIGN: true
         run: |
           pnpm install
-          pnpm build
+          pnpm build --publish="never"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v1.0.0
