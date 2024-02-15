@@ -62,11 +62,11 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: ${{ matrix.os }}-artifact
+          name: "*-artifact"
           path: release
 
       - name: Create Draft
         uses: ncipollo/release-action@v1
-        with:
-          artifacts: "release/**/*"
-          draft: true
+          with:
+            artifacts: "release/**/*"
+            draft: true
