@@ -67,6 +67,6 @@ jobs:
 
       - name: Create Draft
         uses: ncipollo/release-action@v1
-          with:
-            artifacts: "release/**/*"
-            draft: true
+        with:
+          artifacts: "release/**/*"
+          draft: true
