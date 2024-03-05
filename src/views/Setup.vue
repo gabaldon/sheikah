@@ -52,9 +52,11 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, useStore } from 'vuex'
 import { THEMES } from '@/constants'
 import DotsLoading from '@/components/DotsLoading.vue'
+
+const store = useStore()
 
 export default {
   name: 'WalletNotFound',

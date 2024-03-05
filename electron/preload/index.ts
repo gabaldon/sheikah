@@ -1,4 +1,14 @@
 import { ipcRenderer, contextBridge } from 'electron'
+import { IPC_ACTIONS } from '../ipc/ipcActions'
+const {
+  SET_MESSAGE,
+  SHUTDOWN,
+  SET_RUNNING_STATUS,
+  SET_DOWNLOADED_STATUS,
+  SET_DOWNLOADING_STATUS,
+  SET_DOWNLOAD_PROGRESS,
+  SET_LOADED_STATUS,
+} = IPC_ACTIONS.Window
 
 // --------- Expose some API to the Renderer process ---------
 contextBridge.exposeInMainWorld('ipcRenderer', withPrototype(ipcRenderer))
@@ -117,3 +127,34 @@ window.onmessage = ev => {
 }
 
 setTimeout(removeLoading, 4999)
+
+contextBridge.exposeInMainWorld('ipcAPI', {
+  onShutdown: (fn: any) => {
+    console.log('>>>>> onShutdown')
+    ipcRenderer.on(SHUTDOWN, (event, ...args) => fn(...args))
+  },
+  onMessage: (fn: any) => {
+    console.log('>>>>> onMessage')
+    ipcRenderer.on(SET_MESSAGE, (event, ...args) => fn(...args))
+  },
+  onRunningStatus: (fn: any) => {
+    console.log('>>>>> onRunningStatus')
+    ipcRenderer.on(SET_RUNNING_STATUS, (event, ...args) => fn(...args))
+  },
+  onDownloadedStatus: (fn: any) => {
+    console.log('>>>>> onDownloadedStatus')
+    ipcRenderer.on(SET_DOWNLOADED_STATUS, (event, ...args) => fn(...args))
+  },
+  onDownloadingStatus: (fn: any) => {
+    console.log('>>>>> onDownloadingStatus')
+    ipcRenderer.on(SET_DOWNLOADING_STATUS, (event, ...args) => fn(...args))
+  },
+  onLoadedStatus: (fn: any) => {
+    console.log('>>>>> onLoadedStatus')
+    ipcRenderer.on(SET_LOADED_STATUS, (event, ...args) => fn(...args))
+  },
+  onDownloadProgress: (fn: any) => {
+    console.log('>>>>> onDownloadProgress')
+    ipcRenderer.on(SET_DOWNLOAD_PROGRESS, (event, ...args) => fn(...args))
+  },
+})

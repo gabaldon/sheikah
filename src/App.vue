@@ -37,6 +37,11 @@ const loading = ref(true)
 const transitionName: Ref<string> = ref('no-transition')
 const route = useRoute()
 let polling: null | ReturnType<typeof setInterval>
+import {
+  onDownloadedStatus,
+  onRunningStatus,
+  onLoadedStatus,
+} from '@/ipc/ipcEvents'
 
 const store = useStore()
 const { idle } = useIdle(5 * 60 * 1000) // 5 min
@@ -65,6 +70,17 @@ onMounted(() => {
   window.onpopstate = function (event) {
     event.stopImmediatePropagation()
   }
+  onDownloadedStatus(() => {
+    store.commit('setMessage', { message: 'wallet up to date' })
+  })
+  onLoadedStatus((args: any) => {
+    if (Array.isArray(args.message) && args.message[0].isDefaultWallet) {
+      store.commit('setWalletOwner', { isDefaultWallet: true })
+    }
+  })
+  onRunningStatus(() => {
+    store.commit('setMessage', { message: 'Running wallet' })
+  })
 })
 onBeforeUnmount(() => {
   if (polling) {

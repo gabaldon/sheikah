@@ -87,7 +87,7 @@ export async function checkDisconnection(router: Router, store: any) {
             }
           }, 2000)
         })
-        router.push('/wallet-not-found')
+        router.push('/setup')
       }
     }
   }
