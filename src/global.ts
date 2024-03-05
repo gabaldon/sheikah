@@ -9,6 +9,7 @@ declare global {
       onDownloadingStatus: (fn: any) => void
       onLoadedStatus: (fn: any) => void
       onDownloadProgress: (fn: any) => void
+      onOSNotSupported: (fn: any) => void
     }
   }
 }

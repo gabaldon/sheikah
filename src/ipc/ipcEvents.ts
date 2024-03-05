@@ -6,6 +6,7 @@ const {
   onDownloadedStatus,
   onDownloadProgress,
   onMessage,
+  onOSNotSupported,
 } = window['ipcAPI']
 
 export {
@@ -16,4 +17,5 @@ export {
   onLoadedStatus,
   onMessage,
   onRunningStatus,
+  onOSNotSupported,
 }

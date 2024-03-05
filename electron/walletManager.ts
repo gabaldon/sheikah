@@ -30,6 +30,7 @@ const {
   SET_DOWNLOADING_STATUS,
   SET_LOADED_STATUS,
   SET_DOWNLOAD_PROGRESS,
+  SET_OS_NOT_SUPPORTED,
 } = IPC_ACTIONS.Window
 
 import { Actions } from './main/index'
@@ -159,7 +160,7 @@ export class WalletManager {
       if (this.needToDownloadWallet) {
         await this.downloadWallet(actions, downloadUrl)
       } else {
-        this.webContents.send(SET_DOWNLOADED_STATUS, 'downloaded!!!')
+        this.webContents.send(SET_DOWNLOADED_STATUS)
         await sleep(3000)
       }
 
@@ -167,7 +168,7 @@ export class WalletManager {
         this.runWallet(actions)
       }
     } else {
-      actions.setStatus(Status.OsNotSupported)
+      this.webContents.send(SET_OS_NOT_SUPPORTED)
       console.info('Your OS is not supported yet')
     }
   }
@@ -182,9 +183,8 @@ export class WalletManager {
     console.info(
       `Fetching release from: ${RELEASE_BASE_URL}${this.witnetRustVersion}`,
     )
-    this.webContents.send(SET_DOWNLOADING_STATUS, 'downloading...')
+    this.webContents.send(SET_DOWNLOADING_STATUS)
     await sleep(2500)
-    actions.setStatus(Status.Wait)
     // FIXME: Remove promise and use async / await
     return new Promise<void>(resolve => {
       axios
@@ -330,7 +330,6 @@ export class WalletManager {
       console.info('stdout: ' + data.toString())
       this.webContents.send(SET_LOADED_STATUS, [{ isDefaultWallet: true }])
       await sleep(3000)
-      actions.setStatus(Status.Ready)
     })
 
     this.walletProcess?.stderr.on('data', function (data) {

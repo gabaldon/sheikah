@@ -52,11 +52,10 @@
 </template>
 
 <script>
-import { mapState, mapMutations, useStore } from 'vuex'
+import { mapState, mapMutations } from 'vuex'
 import { THEMES } from '@/constants'
 import DotsLoading from '@/components/DotsLoading.vue'
-
-const store = useStore()
+import { checkDisconnection } from '@/services/checkDisconnection'
 
 export default {
   name: 'WalletNotFound',
@@ -88,8 +87,10 @@ export default {
       }
     },
   },
-  beforeUnmount() {
-    this.cleanMessage()
+  watch: {
+    percentage(val) {
+      val === 100 ? checkDisconnection(this.$router, this.$store) : null
+    },
   },
   methods: {
     ...mapMutations({
