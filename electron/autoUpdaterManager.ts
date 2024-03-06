@@ -3,9 +3,7 @@ import { BrowserWindow, MessageBoxOptions, dialog } from 'electron'
 import { WalletManager } from './walletManager'
 import { Actions } from './main'
 import { IPC_ACTIONS } from './ipc/ipcActions'
-const {
-  SET_MESSAGE
-} = IPC_ACTIONS.Window
+const { SET_MESSAGE } = IPC_ACTIONS.Window
 
 export class AutoUpdaterManager {
   public isBeingUpdated: boolean = false
@@ -21,10 +19,14 @@ export class AutoUpdaterManager {
     console.log('running auto updater...')
     autoUpdater.checkForUpdatesAndNotify()
     this.win.webContents.send(SET_MESSAGE, 'AUTO UPDATER BEFORE CHECK')
-    this.win.webContents.send(SET_MESSAGE, autoUpdater.currentVersion, autoUpdater.getFeedURL())
+    this.win.webContents.send(
+      SET_MESSAGE,
+      autoUpdater.currentVersion,
+      autoUpdater.getFeedURL(),
+    )
     autoUpdater.on('update-available', () => {
       this.win.webContents.send(SET_MESSAGE, 'Update available')
-      this.showDialog.bind(this)
+      this.showDialog()
     })
     autoUpdater.on('error', err => {
       this.win.webContents.send(SET_MESSAGE, 'Error in auto-updater. ' + err)
@@ -35,7 +37,7 @@ export class AutoUpdaterManager {
     autoUpdater.autoDownload = false
   }
 
-  private showDialog() {
+  showDialog() {
     this.win.webContents.send(SET_MESSAGE, 'update available')
     const options = {
       type: 'info',
@@ -47,20 +49,20 @@ export class AutoUpdaterManager {
     } as MessageBoxOptions
     this.wallet.setIsUpdating(true)
     dialog.showMessageBox(this.win, options).then(result => {
-        if (result.response === 0) {
-          autoUpdater
-            .downloadUpdate()
-            .then(path => {
-              console.log('Release path to download', path)
-            })
-            .catch(e => {
-              console.log('Error', e)
-            })
-        } else if (result.response === 1) {
-          this.wallet.setIsUpdating(false)
-          this.wallet.runWallet()
-        }
-      })
+      if (result.response === 0) {
+        autoUpdater
+          .downloadUpdate()
+          .then(path => {
+            console.log('Release path to download', path)
+          })
+          .catch(e => {
+            console.log('Error', e)
+          })
+      } else if (result.response === 1) {
+        this.wallet.setIsUpdating(false)
+        this.wallet.runWallet()
+      }
+    })
   }
 
   private closeWindowAndRestart(actions: Actions) {
