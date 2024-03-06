@@ -2,6 +2,10 @@ import { autoUpdater } from 'electron-updater'
 import { BrowserWindow, MessageBoxOptions, dialog } from 'electron'
 import { WalletManager } from './walletManager'
 import { Actions } from './main'
+import { IPC_ACTIONS } from './ipc/ipcActions'
+const {
+  SET_MESSAGE
+} = IPC_ACTIONS.Window
 
 export class AutoUpdaterManager {
   public isBeingUpdated: boolean = false
@@ -14,6 +18,8 @@ export class AutoUpdaterManager {
   }
 
   public run() {
+    console.log('running auto updater...')
+    this.win.webContents.send(SET_MESSAGE, 'AUTO UPDATER')
     autoUpdater.on('update-available', this.showDialog.bind(this))
     autoUpdater.on('error', err => {
       console.log('Error in auto-updater. ' + err)
@@ -25,6 +31,7 @@ export class AutoUpdaterManager {
   }
 
   private showDialog() {
+    this.win.webContents.send(SET_MESSAGE, 'update available')
     const options = {
       type: 'info',
       title: 'DOClever',
@@ -52,6 +59,7 @@ export class AutoUpdaterManager {
   }
 
   private closeWindowAndRestart(actions: Actions) {
+    this.win.webContents.send(SET_MESSAGE, 'close window and restart')
     if (this.wallet.walletProcess) {
       this.wallet.walletProcess.kill(9)
     }

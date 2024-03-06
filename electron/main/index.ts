@@ -15,8 +15,9 @@ import { app, BrowserWindow, shell, ipcMain, Menu } from 'electron'
 import kill from 'tree-kill'
 import { WalletManager } from '../walletManager'
 import { IPC_ACTIONS } from '../ipc/ipcActions'
+import { AutoUpdaterManager } from '../autoUpdaterManager'
 
-const { SHUTDOWN } = IPC_ACTIONS.Window
+const { SHUTDOWN, SET_MESSAGE } = IPC_ACTIONS.Window
 
 globalThis.__filename = fileURLToPath(import.meta.url)
 globalThis.__dirname = dirname(__filename)
@@ -63,7 +64,10 @@ async function createWindow() {
     autoHideMenuBar: true,
   })
 
-  new WalletManager(win?.webContents).run(actions)
+  const walletManager = new WalletManager(win?.webContents)
+  walletManager.run(actions)
+  win?.webContents.send(SET_MESSAGE)
+  new AutoUpdaterManager(walletManager, win).run()
 
   if (!process.env.VITE_DEV_SERVER_URL) {
     // Hide electron toolbar in production environment

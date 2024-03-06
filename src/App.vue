@@ -44,6 +44,7 @@ import {
   onLoadedStatus,
   onDownloadProgress,
   onOSNotSupported,
+  onMessage,
 } from '@/ipc/ipcEvents'
 
 const store = useStore()
@@ -74,6 +75,9 @@ onMounted(() => {
     event.stopImmediatePropagation()
   }
   //TODO: move to a service
+  onMessage((message: string) => {
+    console.log('Message from Auto Updater', message)
+  })
   onDownloadProgress((progress: any) => {
     store.commit('setProgress', { progress: progress.percentage })
   })
