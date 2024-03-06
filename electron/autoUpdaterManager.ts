@@ -19,15 +19,20 @@ export class AutoUpdaterManager {
 
   public run() {
     console.log('running auto updater...')
-    this.win.webContents.send(SET_MESSAGE, 'AUTO UPDATER')
-    autoUpdater.on('update-available', this.showDialog.bind(this))
+    autoUpdater.checkForUpdatesAndNotify()
+    this.win.webContents.send(SET_MESSAGE, 'AUTO UPDATER BEFORE CHECK')
+    this.win.webContents.send(SET_MESSAGE, autoUpdater.currentVersion, autoUpdater.getFeedURL())
+    autoUpdater.on('update-available', () => {
+      this.win.webContents.send(SET_MESSAGE, 'Update available')
+      this.showDialog.bind(this)
+    })
     autoUpdater.on('error', err => {
+      this.win.webContents.send(SET_MESSAGE, 'Error in auto-updater. ' + err)
       console.log('Error in auto-updater. ' + err)
     })
     autoUpdater.on('update-downloaded', this.closeWindowAndRestart.bind(this))
 
     autoUpdater.autoDownload = false
-    autoUpdater.checkForUpdatesAndNotify()
   }
 
   private showDialog() {

@@ -67,7 +67,6 @@ async function createWindow() {
   const walletManager = new WalletManager(win?.webContents)
   walletManager.run(actions)
   win?.webContents.send(SET_MESSAGE)
-  new AutoUpdaterManager(walletManager, win).run()
 
   if (!process.env.VITE_DEV_SERVER_URL) {
     // Hide electron toolbar in production environment
@@ -102,6 +101,10 @@ async function createWindow() {
     // Open devTool if the app is not packaged
     win.webContents.openDevTools()
   }
+
+  win.once('ready-to-show', () => {
+    new AutoUpdaterManager(walletManager, win).run()
+  })
 
   // Test actively push message to the Electron-Renderer
   win.webContents.on('did-finish-load', () => {
