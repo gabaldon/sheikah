@@ -167,6 +167,7 @@ ipcMain.on(SHUTDOWN_FINISHED, () => {
 })
 
 ipcMain.on(CLEAR_WALLET_FILES, () => {
+  app.commandLine.appendSwitch('enable-experimental-web-platform-features')
   walletManager.setRelaunch(true)
   walletManager.setForceQuit(true)
   walletManager.clearWalletFiles(SHEIKAH_PATH)
