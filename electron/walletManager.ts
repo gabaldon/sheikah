@@ -179,8 +179,9 @@ export class WalletManager {
   }
 
   public clearWalletFiles(pathToClear: string) {
+    console.log('Exists path?', fs.existsSync(pathToClear))
     if (fs.existsSync(pathToClear)) {
-      fs.rmdirSync(pathToClear, { recursive: true })
+      fs.rmSync(pathToClear, { recursive: true, force: true })
     }
   }
 
@@ -308,6 +309,8 @@ export class WalletManager {
     })
 
     this.walletProcess.on('exit', () => {
+      console.log('FORCE QUIT?', this.forceQuit)
+      console.log('Relaunch?', this.relaunch)
       if (this.forceQuit) {
         actions.quitApp()
         if (this.relaunch) {
