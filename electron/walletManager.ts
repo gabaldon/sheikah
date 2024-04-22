@@ -312,7 +312,7 @@ export class WalletManager {
       console.log('FORCE QUIT?', this.forceQuit)
       console.log('Relaunch?', this.relaunch)
       if (this.forceQuit) {
-        actions.quitApp()
+        // actions.quitApp()
         if (this.relaunch) {
           actions.relaunch()
         }
