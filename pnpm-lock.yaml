@@ -114,8 +114,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       qrcode-vue3:
-        specifier: ^1.6.8
-        version: 1.7.1
+        specifier: 1.6.8
+        version: 1.6.8
       rpc-websockets:
         specifier: ^7.9.0
         version: 7.11.2
@@ -174,7 +174,7 @@ importers:
         specifier: ^4.3.0
         version: 4.4.4(vue@3.4.21(typescript@5.6.2))
       vue-tsc:
-        specifier: ^2.0.7
+        specifier: ^2.0.28
         version: 2.1.6(typescript@5.6.2)
       vuex:
         specifier: ^4.1.0
@@ -2734,8 +2734,8 @@ packages:
   qrcode-generator@1.4.4:
     resolution: {integrity: sha512-HM7yY8O2ilqhmULxGMpcHSF1EhJJ9yBj8gvDEuZ6M+KGJ0YY2hKpnXvRD+hZPLrDVck3ExIGhmPtSdcjC+guuw==}
 
-  qrcode-vue3@1.7.1:
-    resolution: {integrity: sha512-Xa82NslFJUqsnQbLtc1qO+xPEOeFaTRxktg3ugRd2Pk116kta1X+7GLSEPQj9gor8jWVyfmLmhYZHuANnRZoLQ==}
+  qrcode-vue3@1.6.8:
+    resolution: {integrity: sha512-LtMnwKWi58ZqHbXBcsTF/VxDYhI6RrBIrDQw8fbDVlO8p5tJBZa7TaIaVYLY937vKO2WCEBmOKksGlpm5ccEIg==}
 
   qs@6.5.3:
     resolution: {integrity: sha512-qxXIEh4pCGfHICj1mAJQ2/2XVZkjCDTcEgfoSQxc/fYivUZxTkk7L3bDBJSoNrEzXI17oUO5Dp07ktqE5KzczA==}
@@ -6456,7 +6456,7 @@ snapshots:
 
   qrcode-generator@1.4.4: {}
 
-  qrcode-vue3@1.7.1:
+  qrcode-vue3@1.6.8:
     dependencies:
       qrcode-generator: 1.4.4
 
