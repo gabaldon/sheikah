@@ -1105,7 +1105,6 @@ export default {
         })
       }
     },
-
     getBalance: async function (context) {
       const request = await api.getBalance({
         wallet_id: context.state.walletId,
