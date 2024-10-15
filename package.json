@@ -50,7 +50,7 @@
     "node": "20.9.0"
   },
   "devDependencies": {
-    "@electron/notarize": "^2.3.0",
+    "@electron/notarize": "^2.5.0",
     "@fortawesome/fontawesome-svg-core": "^6.6.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/vue-fontawesome": "^3.0.6",
@@ -107,5 +107,8 @@
     "vuex": "^4.1.0",
     "witnet-radon-js": "^0.11.0",
     "witnet-requests": "^0.9.12"
+  },
+  "dependencies": {
+    "electron-vite": "^2.3.0"
   }
 }
