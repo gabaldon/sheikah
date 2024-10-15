@@ -15,10 +15,16 @@
     "artifactName": "${productName}-${version}.${ext}",
     "entitlements": "build/entitlements.mac.plist",
     "entitlementsInherit": "build/entitlements.mac.plist",
-    hardenedRuntime: true,
-    "target": [
-      "default"
-    ]
+    "hardenedRuntime": true,
+    "target": {
+      target: "default",
+      arch: ["universal"],
+    },
+    "gatekeeperAssess": false,
+    "notarize": false,
+  },
+  "dmg": {
+    "sign": false
   },
   "afterSign": "scripts/notarize.cjs",
   "win": {
