@@ -12,6 +12,9 @@
     "dist"
   ],
   "mac": {
+    "asarUnpack": [
+      "**/*.node"
+    ],
     "artifactName": "${productName}-${version}.${ext}",
     "entitlements": "build/entitlements.mac.plist",
     "entitlementsInherit": "build/entitlements.mac.plist",
@@ -20,7 +23,7 @@
       target: "default",
       arch: ["universal"],
     },
-    "gatekeeperAssess": false,
+    "gatekeeperAssess": true,
     "notarize": false,
   },
   "dmg": {
